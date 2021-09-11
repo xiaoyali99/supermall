@@ -6,5 +6,15 @@ export default {
       url: '/home/multidata',
       method: 'get'
     })
+  },
+  getHomeData(type, page) {
+    return request({
+      url: '/home/data',
+      method: 'get',
+      params: {
+        type,
+        page
+      }
+    })
   }
 }

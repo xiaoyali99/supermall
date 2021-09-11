@@ -1,46 +1,48 @@
 <template>
-  <div id="Cart">
-    <nav-bar class="cart-bar">
-      <div slot="center">购物车({{ cartLength }})</div>
-    </nav-bar>
-    <cart-list />
-    <cart-bottom-total />
+  <div class="tab-control">
+    <div
+      v-for="(item, index) in titles"
+      :key="index"
+      class="tab-control-item"
+      @click="itemClick(index)"
+    >
+      <span :class="{ active: currentIndex === index }">{{ item }}</span>
+    </div>
   </div>
 </template>
 
 <script>
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
-import NavBar from "@/components/common/navbar/NavBar";
 
-import CartList from "./childcpn/CartList";
-import CartBottomTotal from "./childcpn/CartBottomTotal";
-
-import { mapGetters } from "vuex";
 export default {
   //import引入的组件需要注入到对象中才能使用
-  components: {
-    NavBar,
-    CartList,
-    CartBottomTotal,
+  props: {
+    titles: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
   },
+  components: {},
   data() {
     //这里存放数据
-    return {};
+    return {
+      currentIndex: 0,
+    };
   },
   //监听属性 类似于data概念
-  computed: {
-    // 写法一：
-    ...mapGetters(["cartLength"]),
-    // 写法二：
-    // ...mapGetters({
-    //   length:"cartLength"
-    // })
-  },
+  computed: {},
   //监控data中的数据变化
   watch: {},
   //方法集合
-  methods: {},
+  methods: {
+    itemClick(index) {
+      this.currentIndex = index;
+      this.$emit("tabClick", index);
+    },
+  },
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
@@ -55,14 +57,20 @@ export default {
 };
 </script>
 <style scoped>
-#cart {
-  /*padding-top: 44px;*/
-  height: 100vh;
-  position: relative;
+.tab-control {
+  display: flex;
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
 }
-.cart-bar {
-  font-weight: 700;
-  background-color: var(--color-tint);
-  color: white;
+.tab-control-item {
+  flex: 1;
+}
+.tab-control-item span {
+  padding: 5px;
+}
+.active {
+  color: var(--color-high-text);
+  border-bottom: 3px solid var(--color-tint);
 }
 </style>

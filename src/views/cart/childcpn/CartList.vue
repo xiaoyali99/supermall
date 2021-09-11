@@ -1,28 +1,27 @@
 <template>
-  <div id="Cart">
-    <nav-bar class="cart-bar">
-      <div slot="center">购物车({{ cartLength }})</div>
-    </nav-bar>
-    <cart-list />
-    <cart-bottom-total />
+  <div class="cart-list">
+    <scroll class="content">
+      <cart-item
+        v-for="(item, index) in cartList"
+        :key="index"
+        :item="item"
+        :probe-type="3"
+      />
+    </scroll>
   </div>
 </template>
 
 <script>
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
-import NavBar from "@/components/common/navbar/NavBar";
-
-import CartList from "./childcpn/CartList";
-import CartBottomTotal from "./childcpn/CartBottomTotal";
-
+import CartItem from "./CartItem";
 import { mapGetters } from "vuex";
+import { Scroll } from "@/components/common/scroll";
 export default {
   //import引入的组件需要注入到对象中才能使用
   components: {
-    NavBar,
-    CartList,
-    CartBottomTotal,
+    CartItem,
+    Scroll,
   },
   data() {
     //这里存放数据
@@ -30,12 +29,7 @@ export default {
   },
   //监听属性 类似于data概念
   computed: {
-    // 写法一：
-    ...mapGetters(["cartLength"]),
-    // 写法二：
-    // ...mapGetters({
-    //   length:"cartLength"
-    // })
+    ...mapGetters(["cartLength", "cartList"]),
   },
   //监控data中的数据变化
   watch: {},
@@ -55,14 +49,12 @@ export default {
 };
 </script>
 <style scoped>
-#cart {
-  /*padding-top: 44px;*/
-  height: 100vh;
-  position: relative;
-}
-.cart-bar {
-  font-weight: 700;
-  background-color: var(--color-tint);
-  color: white;
+.content {
+  overflow: hidden;
+  position: absolute;
+  top: 44px;
+  bottom: 49px;
+  left: 0;
+  right: 0;
 }
 </style>

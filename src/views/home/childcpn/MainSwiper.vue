@@ -2,7 +2,7 @@
   <swiper>
     <swiper-item v-for="(item, index) in banners" :key="index">
       <a :href="item.link">
-        <img :src="item.image" alt="" />
+        <img :src="item.image" alt="" @load="imageLoad" />
       </a>
     </swiper-item>
   </swiper>
@@ -19,24 +19,34 @@ export default {
     Swiper,
     SwiperItem,
   },
-  props:{
-    banners:{
-      type:Array,
-      default(){
-        return []
-      }
-    }
+  props: {
+    banners: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
   },
   data() {
     //这里存放数据
-    return {};
+    return {
+      isLoad: false,
+    };
   },
   //监听属性 类似于data概念
   computed: {},
   //监控data中的数据变化
   watch: {},
   //方法集合
-  methods: {},
+  methods: {
+    // 图片加载完成
+    imageLoad() {
+      if (!this.isLoad) {
+        this.$emit("swiperImageLoad");
+        this.isLoad = true;
+      }
+    },
+  },
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）

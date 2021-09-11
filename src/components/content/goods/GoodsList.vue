@@ -1,46 +1,40 @@
 <template>
-  <div id="Cart">
-    <nav-bar class="cart-bar">
-      <div slot="center">购物车({{ cartLength }})</div>
-    </nav-bar>
-    <cart-list />
-    <cart-bottom-total />
+  <div class="goods">
+    <goods-item
+      v-for="(item, index) in goods"
+      :key="index"
+      :good="item"
+    ></goods-item>
   </div>
 </template>
 
 <script>
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
-import NavBar from "@/components/common/navbar/NavBar";
-
-import CartList from "./childcpn/CartList";
-import CartBottomTotal from "./childcpn/CartBottomTotal";
-
-import { mapGetters } from "vuex";
+import GoodsItem from "./GoodsItem";
 export default {
   //import引入的组件需要注入到对象中才能使用
-  components: {
-    NavBar,
-    CartList,
-    CartBottomTotal,
+  props: {
+    goods: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
   },
+  components: { GoodsItem },
   data() {
     //这里存放数据
     return {};
   },
   //监听属性 类似于data概念
-  computed: {
-    // 写法一：
-    ...mapGetters(["cartLength"]),
-    // 写法二：
-    // ...mapGetters({
-    //   length:"cartLength"
-    // })
-  },
+  computed: {},
   //监控data中的数据变化
   watch: {},
   //方法集合
-  methods: {},
+  methods: {
+
+  },
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
@@ -55,14 +49,10 @@ export default {
 };
 </script>
 <style scoped>
-#cart {
-  /*padding-top: 44px;*/
-  height: 100vh;
-  position: relative;
-}
-.cart-bar {
-  font-weight: 700;
-  background-color: var(--color-tint);
-  color: white;
+.goods {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 2px;
 }
 </style>
